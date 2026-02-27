@@ -139,3 +139,17 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# local IDE / misc
+.idea/
+*.iml
+
+# accidental/typo files
+*.pyy
+
+# local IDE / misc
+.idea/
+*.iml
+
+# accidental/typo files
+*.pyy

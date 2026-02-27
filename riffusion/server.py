@@ -41,7 +41,7 @@ def run_app(
     checkpoint: str = "riffusion/riffusion-model-v1",
     no_traced_unet: bool = False,
     device: str = "cuda",
-    host: str = "127.0.0.1",
+    host: str = "0.0.0.0",
     port: int = 3013,
     debug: bool = False,
     ssl_certificate: T.Optional[str] = None,

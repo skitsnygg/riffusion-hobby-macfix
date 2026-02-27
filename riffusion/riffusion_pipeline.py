@@ -343,6 +343,16 @@ class RiffusionPipeline(DiffusionPipeline):
             )
             uncond_embeddings = self.text_encoder(uncond_input.input_ids.to(self.device))[0]
 
+            # If prompt reweighting produced multi-chunk embeddings, align
+            # unconditional embeddings to the same sequence length.
+            if uncond_embeddings.shape[1] != text_embeddings.shape[1]:
+                if text_embeddings.shape[1] % uncond_embeddings.shape[1] != 0:
+                    raise ValueError(
+                        "Unconditional embeddings length does not divide text embeddings length."
+                    )
+                repeat_factor = text_embeddings.shape[1] // uncond_embeddings.shape[1]
+                uncond_embeddings = uncond_embeddings.repeat(1, repeat_factor, 1)
+
             # duplicate unconditional embeddings for each generation per prompt
             uncond_embeddings = uncond_embeddings.repeat_interleave(
                 batch_size * num_images_per_prompt, dim=0
